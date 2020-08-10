@@ -2,5 +2,6 @@
     <string name="app_name">SomethingToDo</string>
 
     <!-- Main Activity -->
-    <string name="generate_button_text">Generate!</string>
+    <string name="generate_button_text">Generate</string>
+
 </resources>
