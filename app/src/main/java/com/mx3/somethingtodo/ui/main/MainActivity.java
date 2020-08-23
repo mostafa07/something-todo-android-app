@@ -3,7 +3,6 @@ package com.mx3.somethingtodo.ui.main;
 import android.content.Context;
 import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
@@ -11,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.mx3.somethingtodo.R;
 import com.mx3.somethingtodo.databinding.ActivityMainBinding;
+import com.mx3.somethingtodo.ui.common.OnSwipeTouchListener;
 import com.squareup.seismic.ShakeDetector;
 
 public class MainActivity extends AppCompatActivity implements ShakeDetector.Listener {
@@ -31,12 +31,13 @@ public class MainActivity extends AppCompatActivity implements ShakeDetector.Lis
         setupViewModel();
 
         setupButtonListeners();
+        setupTouchListeners();
 
         setupSensor();
         setupShakeDetector();
 
         // fetch a random activity for the first time
-        mViewModel.retrieveRandomActivity();
+        retrieveRandomActivity();
     }
 
     @Override
@@ -51,6 +52,11 @@ public class MainActivity extends AppCompatActivity implements ShakeDetector.Lis
         mShakeDetector.stop();
     }
 
+    @Override
+    public void hearShake() {
+        retrieveRandomActivity();
+    }
+
     private void setupViewModel() {
         mViewModel = new ViewModelProvider(this).get(MainViewModel.class);
 
@@ -58,7 +64,30 @@ public class MainActivity extends AppCompatActivity implements ShakeDetector.Lis
     }
 
     private void setupButtonListeners() {
-        mBinding.generateActivityButton.setOnClickListener(view -> mViewModel.retrieveRandomActivity());
+        mBinding.generateActivityButton.setOnClickListener(view -> retrieveRandomActivity());
+    }
+
+    private void setupTouchListeners() {
+//        mBinding.activityNameTextView.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View view, MotionEvent motionEvent) {
+//                return false;
+//            }
+//        });
+
+        mBinding.activityNameTextView.setOnTouchListener(new OnSwipeTouchListener(MainActivity.this) {
+            @Override
+            public void onSwipeRight() {
+                super.onSwipeRight();
+                retrieveRandomActivity();
+            }
+
+            @Override
+            public void onSwipeLeft() {
+                super.onSwipeLeft();
+                retrieveRandomActivity();
+            }
+        });
     }
 
     private void setupSensor() {
@@ -71,9 +100,7 @@ public class MainActivity extends AppCompatActivity implements ShakeDetector.Lis
         mShakeDetector.start(mSensorManager);
     }
 
-    @Override
-    public void hearShake() {
+    private void retrieveRandomActivity() {
         mViewModel.retrieveRandomActivity();
-        Log.d(LOG_TAG, "Sensor Vibration");
     }
 }
