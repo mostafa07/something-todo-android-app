@@ -11,7 +11,6 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-
 public class RetrofitServiceBuilder {
 
     private static final String LOG_TAG = RetrofitServiceBuilder.class.getSimpleName();

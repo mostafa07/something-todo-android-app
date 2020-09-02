@@ -17,18 +17,19 @@ import rx.subscriptions.Subscriptions;
 public class ActivitiesRepository {
 
     private static final String LOG_TAG = ActivitiesRepository.class.getSimpleName();
-    private static final Object LOCK = new Object();
 
     private static ActivitiesRepository sInstance;
 
     private ActivityApiWebService mActivityApiWebService;
+
+    // Constructor
 
     private ActivitiesRepository() {
         mActivityApiWebService = RetrofitServiceBuilder.buildService(ActivityApiWebService.class);
     }
 
     public static synchronized ActivitiesRepository getInstance() {
-        synchronized (LOCK) {
+        synchronized (ActivitiesRepository.class) {
             if (sInstance == null) {
                 sInstance = new ActivitiesRepository();
             }
