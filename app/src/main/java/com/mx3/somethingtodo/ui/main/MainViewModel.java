@@ -29,6 +29,9 @@ public class MainViewModel extends ViewModel {
         mActivityMutableLiveData = new MutableLiveData<>();
         mIsProgressDialogShownMutableLiveData = new MutableLiveData<>(false);
         mErrorMessageMutableLiveData = new MutableLiveData<>();
+
+        // retrieve random activity for thr first time
+        retrieveRandomActivity();
     }
 
     // Other methods

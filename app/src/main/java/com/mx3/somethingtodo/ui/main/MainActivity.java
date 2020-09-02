@@ -38,9 +38,6 @@ public class MainActivity extends AppCompatActivity implements ShakeDetector.Lis
 
         setupSensor();
         setupShakeDetector();
-
-        // fetch a random activity for the first time
-        retrieveRandomActivity();
     }
 
     @Override
